@@ -1,8 +1,5 @@
 .idea/
 
-# admin panel
-crud/
-
 # test files
 test/
 
