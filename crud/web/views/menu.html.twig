@@ -1,0 +1,230 @@
+{% extends 'ag_menu.html.twig' %}
+
+{% block menu %}
+<li class="treeview">
+    <a class="additional" href="../../../report/index.php">
+        <i class="fa fa-file"></i>
+        <span>Запросы</span>
+        <i class="fa pull-right "></i>
+    </a>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'abiturienty_list' or option == 'abiturienty_create' or option == 'abiturienty_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>abiturienty</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'abiturienty_list' %}class="active"{% endif %}><a href="{{ path('abiturienty_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'abiturienty_create' %}class="active"{% endif %}><a href="{{ path('abiturienty_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'ekzamenacionnyj_list_list' or option == 'ekzamenacionnyj_list_create' or option == 'ekzamenacionnyj_list_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>ekzamenacionnyj_list</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'ekzamenacionnyj_list_list' %}class="active"{% endif %}><a href="{{ path('ekzamenacionnyj_list_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'ekzamenacionnyj_list_create' %}class="active"{% endif %}><a href="{{ path('ekzamenacionnyj_list_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'fakultety_list' or option == 'fakultety_create' or option == 'fakultety_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>fakultety</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'fakultety_list' %}class="active"{% endif %}><a href="{{ path('fakultety_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'fakultety_create' %}class="active"{% endif %}><a href="{{ path('fakultety_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'gorod_list' or option == 'gorod_create' or option == 'gorod_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>gorod</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'gorod_list' %}class="active"{% endif %}><a href="{{ path('gorod_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'gorod_create' %}class="active"{% endif %}><a href="{{ path('gorod_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'gruppy_list' or option == 'gruppy_create' or option == 'gruppy_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>gruppy</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'gruppy_list' %}class="active"{% endif %}><a href="{{ path('gruppy_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'gruppy_create' %}class="active"{% endif %}><a href="{{ path('gruppy_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'kafedry_list' or option == 'kafedry_create' or option == 'kafedry_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>kafedry</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'kafedry_list' %}class="active"{% endif %}><a href="{{ path('kafedry_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'kafedry_create' %}class="active"{% endif %}><a href="{{ path('kafedry_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'konkurs_na_kafedru_list' or option == 'konkurs_na_kafedru_create' or option == 'konkurs_na_kafedru_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>konkurs_na_kafedru</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'konkurs_na_kafedru_list' %}class="active"{% endif %}><a href="{{ path('konkurs_na_kafedru_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'konkurs_na_kafedru_create' %}class="active"{% endif %}><a href="{{ path('konkurs_na_kafedru_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'lgoty_postupayuschih_list' or option == 'lgoty_postupayuschih_create' or option == 'lgoty_postupayuschih_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>lgoty_postupayuschih</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'lgoty_postupayuschih_list' %}class="active"{% endif %}><a href="{{ path('lgoty_postupayuschih_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'lgoty_postupayuschih_create' %}class="active"{% endif %}><a href="{{ path('lgoty_postupayuschih_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'potok_grupp_list' or option == 'potok_grupp_create' or option == 'potok_grupp_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>potok_grupp</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'potok_grupp_list' %}class="active"{% endif %}><a href="{{ path('potok_grupp_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'potok_grupp_create' %}class="active"{% endif %}><a href="{{ path('potok_grupp_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'potoki_list' or option == 'potoki_create' or option == 'potoki_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>potoki</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'potoki_list' %}class="active"{% endif %}><a href="{{ path('potoki_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'potoki_create' %}class="active"{% endif %}><a href="{{ path('potoki_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'predmety_list' or option == 'predmety_create' or option == 'predmety_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>predmety</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'predmety_list' %}class="active"{% endif %}><a href="{{ path('predmety_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'predmety_create' %}class="active"{% endif %}><a href="{{ path('predmety_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'raspisanie_list' or option == 'raspisanie_create' or option == 'raspisanie_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>raspisanie</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'raspisanie_list' %}class="active"{% endif %}><a href="{{ path('raspisanie_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'raspisanie_create' %}class="active"{% endif %}><a href="{{ path('raspisanie_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'role_list' or option == 'role_create' or option == 'role_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>role</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'role_list' %}class="active"{% endif %}><a href="{{ path('role_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'role_create' %}class="active"{% endif %}><a href="{{ path('role_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'strana_list' or option == 'strana_create' or option == 'strana_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>strana</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'strana_list' %}class="active"{% endif %}><a href="{{ path('strana_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'strana_create' %}class="active"{% endif %}><a href="{{ path('strana_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'tip_raspisaniya_list' or option == 'tip_raspisaniya_create' or option == 'tip_raspisaniya_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>tip_raspisaniya</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'tip_raspisaniya_list' %}class="active"{% endif %}><a href="{{ path('tip_raspisaniya_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'tip_raspisaniya_create' %}class="active"{% endif %}><a href="{{ path('tip_raspisaniya_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'uchebnye_zavedeniya_list' or option == 'uchebnye_zavedeniya_create' or option == 'uchebnye_zavedeniya_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>uchebnye_zavedeniya</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'uchebnye_zavedeniya_list' %}class="active"{% endif %}><a href="{{ path('uchebnye_zavedeniya_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'uchebnye_zavedeniya_create' %}class="active"{% endif %}><a href="{{ path('uchebnye_zavedeniya_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'users_list' or option == 'users_create' or option == 'users_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>users</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'users_list' %}class="active"{% endif %}><a href="{{ path('users_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'users_create' %}class="active"{% endif %}><a href="{{ path('users_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'vedomosti_list' or option == 'vedomosti_create' or option == 'vedomosti_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>vedomosti</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'vedomosti_list' %}class="active"{% endif %}><a href="{{ path('vedomosti_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> List</a></li>
+        <li {% if option is defined and option == 'vedomosti_create' %}class="active"{% endif %}><a href="{{ path('vedomosti_create') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Create</a></li>
+    </ul>
+</li>
+
+
+
+{% endblock %}

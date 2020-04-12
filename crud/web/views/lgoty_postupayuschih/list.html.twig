@@ -1,0 +1,106 @@
+{% extends 'ag_base/backend.html.twig' %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <!-- page script -->
+    <script type="text/javascript">
+        $(function() {
+            $("#lgoty_postupayuschih_list").dataTable({
+				serverSide: true,
+				ajax: {
+				    "url": "lgoty_postupayuschih/list",
+                    "type": "POST"
+				},
+				columns: [
+					{% for table_column in table_columns %}
+					{ "data": "{{ table_column }}"},
+                    {% endfor %}
+					{
+						"orderable": false,
+						"data": null,
+						"defaultContent": null,
+					}
+				],
+				rowCallback: function( row, data ) {
+					var actions = '<a href="lgoty_postupayuschih/edit/' + data.{{primary_key}} + '" class="btn btn-primary btn-xs">Изменить</a> <a href="lgoty_postupayuschih/delete/' + data.{{primary_key}} + '" onclick="return confirm_delete();" class="btn btn-danger btn-xs">Удалить</a>';
+					$('td:eq({{ table_columns|length }})', row).html( actions );
+
+					{% for image_tag_info in image_tag_insertion %}
+					$('td:eq({{ image_tag_info.column_idx }})', row).append('<br /><img width="80" src="{{ image_tag_info.image_path }}' + data.{{ image_tag_info.column_name }} + '" />');
+					{% endfor %}
+				}
+			});
+        });
+
+        function confirm_delete(){
+            if(!confirm("Are you sure? This action cannot be undone.")) { 
+                return false;
+            }
+        }
+
+    </script>
+{% endblock %}
+
+{% block container %}
+
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+
+        {% include 'menu.html.twig' with {'option': 'lgoty_postupayuschih_list'} %}
+
+        <!-- Right side column. Contains the navbar and content of the page -->
+        <aside class="right-side">                
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    Lgoty_postupayuschih list
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        {% include 'ag_alerts.html.twig' %}
+
+                        <div class="box">
+                            <div class="box-header">
+                                
+                            </div><!-- /.box-header -->
+
+                            <div class="box-body table-responsive">
+                                <a class="btn btn-primary" href="{{ path('lgoty_postupayuschih_create') }}">Create new lgoty_postupayuschih</a>
+
+<a class="btn btn-primary" href="{{ path('lgoty_postupayuschih_downloadList') }}">Скачать список lgoty_postupayuschih как PDF</a>
+                                <br /><br />
+                                <table id="lgoty_postupayuschih_list" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            {% for table_column in table_columns %}
+                                            <th>{{ table_column }}</th>
+                                            {% endfor %}
+                                            <th>Управление</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            {% for table_column in table_columns %}
+                                            <th>{{ table_column }}</th>
+                                            {% endfor %}
+                                            <th>Управление</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div><!-- /.box-body -->
+                        </div><!-- /.box -->
+                    </div>
+                </div>
+
+            </section><!-- /.content -->
+        </aside><!-- /.right-side -->
+    </div><!-- ./wrapper -->
+
+{% endblock %}
