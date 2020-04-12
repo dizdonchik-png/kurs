@@ -1,0 +1,6 @@
+body > main > header {
+    font-size: 13px;
+}
+.form-inline .form-control {
+    width: 100%;
+}
