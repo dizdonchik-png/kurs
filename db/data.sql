@@ -1,4 +1,4 @@
-create table `strana` (
+create table `strana` ( 
   id int unsigned not null auto_increment,
   `name` varchar(32) default null,
   primary key (id)
