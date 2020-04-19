@@ -31,7 +31,7 @@
                     <li class="nav-item active"><a href="report7.php" class="nav-link">Получить расписание консультаций и экзаменов</a></li>
                     <li class="nav-item active"><a href="report8.php" class="nav-link">Получить экзамены для группы</a></li>
                     <li class="nav-item active"><a href="report9.php" class="nav-link">Получить список абитуриентов на факультет</a></li>
-                    <li class="nav-item active"><a href="export.php" class="nav-link">Выгрузка структуры данных</a></li>
+                    <li class="nav-item active"><a href="export.php" class="nav-link">Экспорт и импорт структуры БД</a></li>
                 </ul>
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item mr-sm-2"><?php echo (isset($_SESSION["login"])) ? ('<a class="navbar-text"><span>Вы вошли как <strong>' . $_SESSION["login"] . '</strong></span></a>') : ''; ?></li>

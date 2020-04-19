@@ -7,12 +7,15 @@ if(!isset($_SESSION["login"])){ // если не задана переменна
 /*
  C:\OSPanel\modules\database\MySQL-5.6\bin\mysqldump.exe --default-character-set=cp1251 --opt --host=127.0.0.1 --port=3306 --user=root institution > backup.sql
  \. back.sql
-1. отображение всех таблиц
-2. выгрузка определённой таблицы
+SELECT * FROM abiturienty INTO OUTFILE 'D:/passwd.txt' fields terminated by ',' enclosed by "" lines terminated by '\r\n';
+mysqld.exe -u root
+mysql.exe -u root
  */
 
+require_once "../mysql/connect.php";
+
 /*** ЭКСПОРТ. НАЧАЛО ***/
-if (isset($_POST['fileName'])) {
+if (isset($_POST['task']) && isset($_POST['fileName']) && $_POST['task'] === "1") {
     $filename = $_POST['fileName'] . "-" . date("d-m-Y") . ".sql";
     header("Content-type: application/octet-stream");
     header("Content-Disposition: attachment; filename=\"$filename\"");
@@ -28,9 +31,8 @@ if (isset($_POST['fileName'])) {
 }
 /*** ЭКСПОРТ. КОНЕЦ ***/
 
-require_once "../mysql/connect.php";
 /*** ИМПОРТ. НАЧАЛО ***/
-if (isset($_FILES['fileToUpload']['name']) && isset($_POST['nameDb'])) {
+else if (isset($_POST['task']) && $_POST['task'] === "2" && isset($_FILES['fileToUpload']['name']) && isset($_POST['nameDb'])) {
     $fileContent = file_get_contents($_FILES['fileToUpload']['tmp_name']);
 
     $sql = "CREATE DATABASE " . $_POST['nameDb'] . ";";
@@ -49,39 +51,81 @@ if (isset($_FILES['fileToUpload']['name']) && isset($_POST['nameDb'])) {
 }
 /*** ИМПОРТ. КОНЕЦ ***/
 
+else if (isset($_POST['task']) && $_POST['task'] === "3") {
+    $fileName = $_POST['fileName'] . ".txt";
+    $pathToFile = "D:/" . $fileName;
+    $sql = "SELECT * FROM " . $_POST['tableName'] . " INTO OUTFILE '$pathToFile' fields terminated by ',' enclosed by \"\" lines terminated by '\r\n'";
+    if ($mysql->query($sql) === TRUE) {
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="'.$fileName.'"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($pathToFile));
+        readfile($pathToFile);
+    }
+    exit;
+}
+
 require_once "header.php";
 ?>
     <main>
-        <div class="container">
-            <div class="card mt-2">
-                <div class="card-header text-uppercase"><strong>Выгрузка</strong></div>
-                <div class="card-body">
-                    <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
-                        <div class="form-group">
-                            <label for="nameFile">Введите имя файла для экспорта</label>
-                            <input type="text" class="form-control" id="nameFile" name="fileName" placeholder="Введите имя файла">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <div class="card mt-2">
+                        <div class="card-header text-uppercase"><strong>Выгрузка (mysqldump)</strong></div>
+                        <div class="card-body">
+                            <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
+                                <input type="hidden" name="task" value="1">
+                                <div class="form-group">
+                                    <label for="nameFile">Введите имя файла для экспорта</label>
+                                    <input type="text" class="form-control" id="nameFile" name="fileName" placeholder="Введите имя файла" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Выгрузить</button>
+                            </form>
                         </div>
-                        <button type="submit" class="btn btn-primary">Выгрузить</button>
-                    </form>
+                    </div>
+                    <div class="card mt-2">
+                        <div class="card-header text-uppercase"><strong>Импорт (\. back.sql)</strong></div>
+                        <div class="card-body">
+                            <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="task" value="2">
+                                <div class="form-group">
+                                    <label for="nameDb">Введите имя новой базы данных</label>
+                                    <input type="text" class="form-control" id="nameDb" name="nameDb" placeholder="Имя базы данных" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fileToUpload">Выберите файл для импорта</label>
+                                    <input type="file" class="form-control-file" id="fileToUpload" name="fileToUpload" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Импортировать</button>
+                                <?php if($sqlSuccessImport) { ?>
+                                    <h3><span class="badge badge-success">Импортировано успешно!</span></h3>
+                                <?php } ?>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="card mt-2">
-                <div class="card-header text-uppercase"><strong>Импорт</strong></div>
-                <div class="card-body">
-                    <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="nameDb">Введите имя новой базы данных</label>
-                            <input type="text" class="form-control" id="nameDb" name="nameDb" placeholder="Имя базы данных">
+                <div class="col-6">
+                    <div class="card mt-2">
+                        <div class="card-header text-uppercase"><strong>Экспорт (SELECT ... INTO OUTFILE)</strong></div>
+                        <div class="card-body">
+                            <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
+                                <input type="hidden" name="task" value="3">
+                                <div class="form-group">
+                                    <label>Введите имя экспортируемой таблицы</label>
+                                    <input type="text" class="form-control" name="tableName" placeholder="Введите имя таблицы" value="abiturienty" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Введите имя файла для экспорта</label>
+                                    <input type="text" class="form-control" name="fileName" placeholder="Введите имя файла" value="passwd" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Выгрузить</button>
+                            </form>
                         </div>
-                        <div class="form-group">
-                            <label for="fileToUpload">Выберите файл для импорта</label>
-                            <input type="file" class="form-control-file" id="fileToUpload" name="fileToUpload">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Импортировать</button>
-                        <?php if($sqlSuccessImport) { ?>
-                            <h3><span class="badge badge-success">Импортировано успешно!</span></h3>
-                        <?php } ?>
-                    </form>
+                    </div>
                 </div>
             </div>
 
