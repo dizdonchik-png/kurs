@@ -13,7 +13,7 @@ require_once "header.php";
     <main>
         <div id="block-top">
             <div class="container">
-                <h2>Конкурс на факультеты</h2>
+                <h2>Отображать количество мест на факультетах, если на факультете есть кафедра, в которой две и более группы (некоррелирующий)</h2>
             </div>
         </div>
 
@@ -44,7 +44,7 @@ require_once "header.php";
                 }
                 */
 
-                $sql = "SELECT fakultety.name AS fakultetyName, fakultety.kolichestvo_mest FROM fakultety ORDER BY fakultetyName asc;";
+                $sql = " SELECT f.name AS fakultetyName, f.kolichestvo_mest FROM fakultety f WHERE f.id IN (SELECT DISTINCT fakultety_id FROM kafedry INNER JOIN gruppy ON kafedry.id = gruppy.kafedry_id GROUP BY gruppy.kafedry_id HAVING COUNT(gruppy.kafedry_id) >= 2) ORDER BY f.name asc;";
                 $query = $mysql->query($sql);
                 $rowCount = $query->num_rows;
                 if($rowCount > 0){

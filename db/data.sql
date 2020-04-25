@@ -574,7 +574,58 @@ END$$
 
 CALL getSpisokAbitNaFacultet('ФИТР');
     
-    
+CALL getAbiturients;
 
-SELECT fakultety.id, fakultety.name
-	FROM fakultety;
+    
+SELECT abiturienty.id, abiturienty.familiya, abiturienty.name AS abiturientName, abiturienty.otchestvo,
+ gruppy.name AS gruppyName, kafedry.name AS kafedryName, konkurs_na_kafedru.predmet_1, konkurs_na_kafedru.predmet_2, 
+ konkurs_na_kafedru.predmet_3 
+ FROM konkurs_na_kafedru 
+ INNER JOIN kafedry ON kafedry.id = konkurs_na_kafedru.kafedry_id 
+ INNER JOIN gruppy ON gruppy.kafedry_id = kafedry.id 
+ INNER JOIN abiturienty ON abiturienty.gruppy_id = gruppy.id  
+ ORDER BY abiturienty.id asc, abiturienty.familiya asc;
+ 
+ -- Количество мест на факультете (некоррелирующий)
+ SELECT f.name AS fakultetyName, f.kolichestvo_mest 
+ FROM fakultety f WHERE f.id IN
+ (SELECT DISTINCT fakultety_id
+ FROM kafedry 
+ INNER JOIN gruppy ON kafedry.id = gruppy.kafedry_id
+ GROUP BY gruppy.kafedry_id
+ HAVING COUNT(gruppy.kafedry_id) >= 2)
+ ORDER BY f.name asc;
+ 
+ -- Оценки абитуриента
+SELECT abiturienty.name AS abiturientyName, abiturienty.familiya, predmety.name AS predmetyName, vedomosti.ocenka, gruppy.name AS gruppyName
+	FROM vedomosti
+    INNER JOIN ekzamenacionnyj_list ON ekzamenacionnyj_list.id = vedomosti.ekzamenacionnyj_list_id
+    INNER JOIN predmety ON predmety.id = ekzamenacionnyj_list.predmety_id
+    INNER JOIN abiturienty ON abiturienty.id = ekzamenacionnyj_list.abiturienty_id
+    INNER JOIN gruppy ON gruppy.id = abiturienty.gruppy_id
+
+
+
+SELECT abiturienty.name AS abiturientyName, abiturienty.familiya
+	FROM abiturienty
+
+
+SELECT AVG(vedomosti.ocenka), ekzamenacionnyj_list.abiturienty_id
+	FROM vedomosti
+    INNER JOIN ekzamenacionnyj_list ON ekzamenacionnyj_list.id = vedomosti.ekzamenacionnyj_list_id
+    INNER JOIN predmety ON predmety.id = ekzamenacionnyj_list.predmety_id
+    GROUP BY ekzamenacionnyj_list.abiturienty_id
+    
+    
+    SELECT abiturienty.name AS abiturientyName, abiturienty.familiya, abiturienty.id
+	FROM abiturienty
+    WHERE (
+    SELECT AVG(vedomosti.ocenka) AS sredni
+	FROM vedomosti
+    INNER JOIN ekzamenacionnyj_list ON ekzamenacionnyj_list.id = vedomosti.ekzamenacionnyj_list_id
+    INNER JOIN predmety ON predmety.id = ekzamenacionnyj_list.predmety_id
+    WHERE abiturienty.id = ekzamenacionnyj_list.abiturienty_id ) > 7
+	
+   
+ 
+mysqldump `institution` > 'backup.sql'

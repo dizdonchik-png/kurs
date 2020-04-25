@@ -23,15 +23,30 @@
                 <ul class="navbar-nav">
                     <li class="nav-item"><a href="../crud/web" class="nav-link">Админ-панель</a></li>
                     <li class="nav-item active"><a href="../index.php" class="nav-link">Регистрация</a></li>
-                    <li class="nav-item active"><a href="report2.php" class="nav-link">Какие предметы сдавать студенту</a></li>
-                    <li class="nav-item active"><a href="report3.php" class="nav-link">Количество мест на факультете</a></li>
-                    <li class="nav-item active"><a href="report4.php" class="nav-link">Максимальный балл по предмету</a></li>
-                    <li class="nav-item active"><a href="report5.php" class="nav-link">Средний балл для предметов по факультету</a></li>
-                    <li class="nav-item active"><a href="report6.php" class="nav-link">Оценки абитуриента</a></li>
-                    <li class="nav-item active"><a href="report7.php" class="nav-link">Получить расписание консультаций и экзаменов</a></li>
-                    <li class="nav-item active"><a href="report8.php" class="nav-link">Получить экзамены для группы</a></li>
-                    <li class="nav-item active"><a href="report9.php" class="nav-link">Получить список абитуриентов на факультет</a></li>
-                    <li class="nav-item active"><a href="export.php" class="nav-link">Экспорт и импорт структуры БД</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                            Хранимые процедуры
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="report4.php" class="dropdown-item">Максимальный балл по предмету</a>
+                            <a href="report6.php" class="dropdown-item">Оценки абитуриента</a>
+                            <a href="report5.php" class="dropdown-item">Средний балл для предметов по факультету</a>
+                            <a href="report7.php" class="dropdown-item">Получить расписание консультаций и экзаменов</a>
+                            <a href="report8.php" class="dropdown-item">Получить экзамены для группы</a>
+                            <a href="report9.php" class="dropdown-item">Получить список абитуриентов на факультет</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                            Вложенные запросы
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="report2.php" class="dropdown-item">Список лучших студентов (коррелирующий)</a>
+                            <a href="report3.php" class="dropdown-item">Количество мест на факультете (некоррелирующий)</a>
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item active"><a href="export.php" class="nav-link">Управление БД</a></li>
                 </ul>
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item mr-sm-2"><?php echo (isset($_SESSION["login"])) ? ('<a class="navbar-text"><span>Вы вошли как <strong>' . $_SESSION["login"] . '</strong></span></a>') : ''; ?></li>

@@ -13,7 +13,7 @@ require_once "header.php";
     <main>
         <div id="block-top">
             <div class="container">
-                <h2>Какие предметы сдавать студенту</h2>
+                <h2>Вывести список студентов, средний балл которых выше 7 (коррелирующий)</h2>
             </div>
         </div>
 
@@ -25,12 +25,6 @@ require_once "header.php";
                     <th>ИД</th>
                     <th>Фамилия</th>
                     <th>Имя</th>
-                    <th>Отчество</th>
-                    <th>Номер группы</th>
-                    <th>Название кафедры</th>
-                    <th>Предмет 1</th>
-                    <th>Предмет 2</th>
-                    <th>Предмет 3</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -51,12 +45,19 @@ require_once "header.php";
                 }
                 */
 
-                $sql = "SELECT abiturienty.id, abiturienty.familiya, abiturienty.name AS abiturientName, abiturienty.otchestvo, gruppy.name AS gruppyName, kafedry.name AS kafedryName, konkurs_na_kafedru.predmet_1, konkurs_na_kafedru.predmet_2, konkurs_na_kafedru.predmet_3 FROM konkurs_na_kafedru INNER JOIN kafedry ON kafedry.id = konkurs_na_kafedru.kafedry_id INNER JOIN gruppy ON gruppy.kafedry_id = kafedry.id INNER JOIN abiturienty ON abiturienty.gruppy_id = gruppy.id  ORDER BY abiturienty.id asc, abiturienty.familiya asc;";
+                $sql = "SELECT abiturienty.name AS abiturientyName, abiturienty.familiya, abiturienty.id
+                        FROM abiturienty
+                        WHERE (
+                        SELECT AVG(vedomosti.ocenka) AS sredni
+                        FROM vedomosti
+                        INNER JOIN ekzamenacionnyj_list ON ekzamenacionnyj_list.id = vedomosti.ekzamenacionnyj_list_id
+                        INNER JOIN predmety ON predmety.id = ekzamenacionnyj_list.predmety_id
+                        WHERE abiturienty.id = ekzamenacionnyj_list.abiturienty_id ) > 7";
                 $query = $mysql->query($sql);
                 $rowCount = $query->num_rows;
                 if($rowCount > 0){
                     while($row = $query->fetch_assoc()){
-                        echo '<tr><td>' . $row['id'] . '</td><td>' . $row['familiya'] . '</td><td>' . $row['abiturientName'] . '</td><td>' . $row['otchestvo'] . '</td><td>' . $row['gruppyName'] . '</td><td>' . $row['kafedryName'] . '</td><td>' . $row['predmet_1'] . '</td><td>' . $row['predmet_2'] . '</td><td>' . $row['predmet_3'] . '</td></tr>';
+                        echo '<tr><td>' . $row['id'] . '</td><td>' . $row['familiya'] . '</td><td>' . $row['abiturientyName'] . '</td>';
                     }
                 }
                 ?>
@@ -66,12 +67,6 @@ require_once "header.php";
                     <th>ИД</th>
                     <th>Фамилия</th>
                     <th>Имя</th>
-                    <th>Отчество</th>
-                    <th>Номер группы</th>
-                    <th>Название кафедры</th>
-                    <th>Предмет 1</th>
-                    <th>Предмет 2</th>
-                    <th>Предмет 3</th>
                 </tr>
                 </tfoot>
             </table>

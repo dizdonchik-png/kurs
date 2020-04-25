@@ -51,8 +51,10 @@ else if (isset($_POST['task']) && $_POST['task'] === "2" && isset($_FILES['fileT
 }
 /*** ИМПОРТ. КОНЕЦ ***/
 
+
+/*** ЭКСПОРТ ТАБЛИЦЫ В СТРУКТУРИРОВАННЫЙ ФАЙЛ CSV. НАЧАЛО ***/
 else if (isset($_POST['task']) && $_POST['task'] === "3") {
-    $fileName = $_POST['fileName'] . ".txt";
+    $fileName = $_POST['fileName'];
     $pathToFile = "D:/" . $fileName;
     $sql = "SELECT * FROM " . $_POST['tableName'] . " INTO OUTFILE '$pathToFile' fields terminated by ',' enclosed by \"\" lines terminated by '\r\n'";
     if ($mysql->query($sql) === TRUE) {
@@ -67,6 +69,7 @@ else if (isset($_POST['task']) && $_POST['task'] === "3") {
     }
     exit;
 }
+/*** ЭКСПОРТ. НАЧАЛО ***/
 
 require_once "header.php";
 ?>
@@ -120,7 +123,7 @@ require_once "header.php";
                                 </div>
                                 <div class="form-group">
                                     <label>Введите имя файла для экспорта</label>
-                                    <input type="text" class="form-control" name="fileName" placeholder="Введите имя файла" value="passwd" required>
+                                    <input type="text" class="form-control" name="fileName" placeholder="Введите имя файла" value="passwd.csv" required>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Выгрузить</button>
                             </form>
