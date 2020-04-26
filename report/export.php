@@ -56,10 +56,10 @@ else if (isset($_POST['task']) && $_POST['task'] === "2" && isset($_FILES['fileT
 else if (isset($_POST['task']) && $_POST['task'] === "3") {
     $fileName = $_POST['fileName'];
     $pathToFile = "D:/" . $fileName;
-    $sql = "SELECT * FROM " . $_POST['tableName'] . " INTO OUTFILE '$pathToFile' fields terminated by ',' enclosed by \"\" lines terminated by '\r\n'";
+    $sql = "SELECT * FROM " . $_POST['tableName'] . " INTO OUTFILE '$pathToFile' character set cp1251 fields terminated by ',' enclosed by \"\" lines terminated by '\r\n'";
     if ($mysql->query($sql) === TRUE) {
         header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
+        header('Content-Type: text/csv; charset=cp1251');
         header('Content-Disposition: attachment; filename="'.$fileName.'"');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
@@ -69,12 +69,67 @@ else if (isset($_POST['task']) && $_POST['task'] === "3") {
     }
     exit;
 }
-/*** ЭКСПОРТ. НАЧАЛО ***/
+/*** ЭКСПОРТ. КОНЕЦ ***/
+
+
+
+/*** Импорт (LOAD DATA INFILE .. INTO TABLE) НАЧАЛО ***/
+else if (isset($_POST['task']) && $_POST['task'] === "4") {
+    $filePath = str_replace("\\", "/", $_FILES['fileToUpload']['tmp_name']);
+    $sql = "LOAD DATA INFILE '$filePath' INTO TABLE " . $_POST['tableName'] . " character set cp1251 FIELDS TERMINATED BY ',' ENCLOSED BY \"\" LINES TERMINATED BY '\r\n';";
+    $sqlSuccessImport4 = $mysql->query($sql);
+}
+
+/*** Импорт (LOAD DATA INFILE .. INTO TABLE). КОНЕЦ ***/
 
 require_once "header.php";
 ?>
     <main>
         <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <div class="card mt-2">
+                        <div class="card-header text-uppercase"><strong>Экспорт (SELECT ... INTO OUTFILE)</strong></div>
+                        <div class="card-body">
+                            <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
+                                <input type="hidden" name="task" value="3">
+                                <div class="form-group">
+                                    <label>Введите имя экспортируемой таблицы</label>
+                                    <input type="text" class="form-control" name="tableName" placeholder="Введите имя таблицы" value="strana" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Введите имя файла для экспорта</label>
+                                    <input type="text" class="form-control" name="fileName" placeholder="Введите имя файла" value="strana.csv" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Выгрузить</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card mt-2">
+                        <div class="card-header text-uppercase"><strong>Импорт (LOAD DATA INFILE .. INTO TABLE)</strong></div>
+                        <div class="card-body">
+                            <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="task" value="4">
+                                <div class="form-group">
+                                    <label>Введите имя таблицы для импорта</label>
+                                    <input type="text" class="form-control" name="tableName" placeholder="Введите имя таблицы" value="strana" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Выберите файл с данными для импорта</label>
+                                    <input type="file" class="form-control-file" name="fileToUpload" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Загрузить</button>
+                                <?php if($sqlSuccessImport4) { ?>
+                                    <h3><span class="badge badge-success">Импортировано успешно!</span></h3>
+                                <?php } ?>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
             <div class="row">
                 <div class="col-6">
                     <div class="card mt-2">
@@ -90,6 +145,8 @@ require_once "header.php";
                             </form>
                         </div>
                     </div>
+                </div>
+                <div class="col-6">
                     <div class="card mt-2">
                         <div class="card-header text-uppercase"><strong>Импорт (\. back.sql)</strong></div>
                         <div class="card-body">
@@ -107,25 +164,6 @@ require_once "header.php";
                                 <?php if($sqlSuccessImport) { ?>
                                     <h3><span class="badge badge-success">Импортировано успешно!</span></h3>
                                 <?php } ?>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="card mt-2">
-                        <div class="card-header text-uppercase"><strong>Экспорт (SELECT ... INTO OUTFILE)</strong></div>
-                        <div class="card-body">
-                            <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
-                                <input type="hidden" name="task" value="3">
-                                <div class="form-group">
-                                    <label>Введите имя экспортируемой таблицы</label>
-                                    <input type="text" class="form-control" name="tableName" placeholder="Введите имя таблицы" value="abiturienty" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Введите имя файла для экспорта</label>
-                                    <input type="text" class="form-control" name="fileName" placeholder="Введите имя файла" value="passwd.csv" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Выгрузить</button>
                             </form>
                         </div>
                     </div>

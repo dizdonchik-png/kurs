@@ -626,6 +626,9 @@ SELECT AVG(vedomosti.ocenka), ekzamenacionnyj_list.abiturienty_id
     INNER JOIN predmety ON predmety.id = ekzamenacionnyj_list.predmety_id
     WHERE abiturienty.id = ekzamenacionnyj_list.abiturienty_id ) > 7
 	
+    
+    SET NAMES utf8;
+    SELECT * FROM abiturienty INTO OUTFILE 'D:/passwd.csv' fields terminated by ',' enclosed by "" lines terminated by '\r\n';
    
  
 mysqldump `institution` > 'backup.sql'
